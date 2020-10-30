@@ -1,0 +1,3 @@
+[submodule "src/hdl-lib"]
+	path = src/hdl-lib
+	url = git@github.com:JohnnyGOX17/hdl-lib.git

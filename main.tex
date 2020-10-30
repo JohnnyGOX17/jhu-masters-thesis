@@ -4,7 +4,7 @@
 % Updated on January 29, 2016 by John Muschelli at https://github.com/muschellij2/PhD_Thesis
 % Updated on April 13, 2016 by Leonardo Collado Torres and available at https://github.com/lcolladotor/jhu-thesis-template. View (read-only) at Overleaf here https://www.overleaf.com/read/tqdzgmrxgbtg
 
-%% It's your responsability to make sure that your thesis complies with 
+%% It's your responsability to make sure that your thesis complies with
 %% JHU's formatting rules available at http://guides.library.jhu.edu/etd/formatting
 
 \documentclass[12pt]{report}
@@ -28,7 +28,7 @@
 \raggedbottom
 \newdimen \jot \jot=5mm
 \brokenpenalty=10000
- 
+
 
 %\usepackage[utf8]{inputenc} % Seems to cause a conflict with fontenc and lmodern
 %\DeclareUnicodeCharacter{00A0}{ }
@@ -50,7 +50,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{tikz}
-\usepackage{graphics} 
+\usepackage{graphics}
 \usetikzlibrary{positioning}
 \usetikzlibrary{shapes,arrows}
 \usepackage{dcolumn}
@@ -137,8 +137,8 @@
 
 
 \usepackage[
-style = authoryear, 
-sorting = none, 
+style = ieee, % follows http://ieeeauthorcenter.ieee.org/wp-content/uploads/IEEE-Reference-Guide.pdf
+sorting = none,
 dashed = false,
 maxbibnames = 99,
 backend = bibtex,
@@ -169,42 +169,44 @@ natbib = true
              \end{array}\right) }
 \renewcommand{\contentsname}{Table of Contents}
 \baselineskip=24pt
- 
+
 % Create cover page of dissertation !
 \pagenumbering{roman}
 \thispagestyle{empty}
 \begin{center}
 \vspace*{.25in}
-{\bf\LARGE{ JHU Thesis Template title }}\\ % change it accordingly!
+% #TODO: is this title still good?
+{\bf\LARGE{ FPGA-Based Adaptive Digital Beamforming Using\\
+Machine Learning for MIMO Systems }}\\
 \vspace*{.75in}
 {\bf by} \\*[18pt]
 \vspace*{.2in}
-{\bf Your Name}\\ % change it accordingly!
+{\bf John Gentile}\\
 \vspace*{1in}
 {\bf A dissertation submitted to The Johns Hopkins University\\
 in conformity with the requirements for the degree of\\
-Doctor of Philosophy }\\
+Master of Science }\\
 \vspace*{.75in}
 {\bf Baltimore, Maryland} \\
-{\bf June, 2016} \\     % change it accordingly!
+{\bf May, 2021} \\
 \vspace*{.5in}
 \begin{small}
-{\bf \copyright{ }2016 by Your Name} \\ % change the year if needed!
+{\bf \copyright{ }2021 by John Gentile} \\
 {\bf All rights reserved}
 \end{small}
 \end{center}
-\newpage 
+\newpage
 
 % Add acknowledgements
 \pagestyle{plain}
 \pagenumbering{roman}
 \setcounter{page}{2}
-\include{abstract/abstract}
+\include{abstract/abstract} % #TODO: update!
 \include{committee/committee}
-\include{acknowledgments/acknowledgments}
+\include{acknowledgments/acknowledgments} % #TODO: update!
 
 %\cleardoublepage
-%\newpage 
+%\newpage
 \pagestyle{plain}
 \baselineskip=24pt
 \tableofcontents
@@ -249,11 +251,6 @@ Doctor of Philosophy }\\
 \cleardoublepage
 \printbibliography[title={References}]
 \end{refsection}
-
-
-% CV PDF file downloaded from the moderncv template available at Overleaf
-% https://www.overleaf.com/latex/templates/modern-cv-and-cover-letter-2015-version/sttkgjcysttn#.Vw6PFRMrL65
-\includepdf[pages={-}, pagecommand={\thispagestyle{plain}}]{moderncv-2015.pdf}
 
 
 \end{document}
