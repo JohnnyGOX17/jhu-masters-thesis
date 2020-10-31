@@ -47,12 +47,16 @@
 \usepackage{subfig}
 
 %% load any required packages here
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing} % noisy shapes
+\usetikzlibrary{fit}					% fitting shapes to coordinates
+\usetikzlibrary{backgrounds}	% drawing the background after the foreground
 \usepackage{graphicx}
 \usepackage{float}
-\usepackage{tikz}
 \usepackage{graphics}
-\usetikzlibrary{positioning}
-\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{shapes,arrows,positioning,calc}
 \usepackage{dcolumn}
 % A math shortcut frequently used by John Muschelli
 \newcommand{\bbeta}{\mbox{\boldmath $\beta$}}
@@ -157,7 +161,7 @@ natbib = true
 %\tolerance=10000
 
 %\makeglossary % enable the glossary
-\graphicspath{{rnw_chapter/figure/}{rnw_chapter/}} % change it accordingly!
+%\graphicspath{{rnw_chapter/figure/}{rnw_chapter/}} % change it accordingly!
 
 
 \setcounter{tocdepth}{4}
@@ -238,8 +242,8 @@ Master of Science }\\
 \printbibliography[title={References}]
 \end{refsection}
 
-\begin{refsection}[rnw_chapter/rnw_chapter.bib]
-\include{rnw_chapter/rnw_chapter}
+\begin{refsection}[02_abf_background/abf_background.bib]
+\include{02_abf_background/abf_background}
 \cleardoublepage
 \printbibliography[title={References}]
 \end{refsection}

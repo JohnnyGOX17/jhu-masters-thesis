@@ -6,16 +6,14 @@ ${fname}.pdf: ${fname}.tex \
 	00_committee/committee.tex \
 	01_intro_chapter/intro_chapter.tex \
 	01_intro_chapter/intro_chapter.bib \
+	02_abf_background/abf_background.tex \
+	02_abf_background/abf_background.bib \
 	99_conclusion_chapter/conclusion_chapter.tex \
-	99_conclusion_chapter/conclusion_chapter.bib \
-	rnw_chapter/rnw_chapter.bib \
-	rnw_chapter/rnw_chapter.Rnw
+	99_conclusion_chapter/conclusion_chapter.bib
 	if [ -e ${fname}.aux ]; \
 	then \
 	rm ${fname}.aux; \
 	fi;
-	cd rnw_chapter/ \
-	make clean && make;
 	pdflatex ${fname}
 	bibtex ${fname}
 	bibtex ${fname}1-blx
