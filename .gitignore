@@ -27,6 +27,7 @@
 *.synctex.gz
 *.synctex.gz(busy)
 *.pdfsync
+*.xmpi
 
 ## Auxiliary and intermediate files from other packages:
 

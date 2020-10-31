@@ -201,9 +201,9 @@ Master of Science }\\
 \pagestyle{plain}
 \pagenumbering{roman}
 \setcounter{page}{2}
-\include{abstract/abstract} % #TODO: update!
-\include{committee/committee}
-\include{acknowledgments/acknowledgments} % #TODO: update!
+\include{00_abstract/abstract} % #TODO: update!
+\include{00_committee/committee}
+\include{00_acknowledgments/acknowledgments} % #TODO: update!
 
 %\cleardoublepage
 %\newpage
@@ -232,22 +232,20 @@ Master of Science }\\
 %% TeX files or Rnw files (see rnw_chapter as an example) and please
 %% remember to update the makefile accordingly.
 
-\begin{refsection}[intro_chapter/intro_chapter.bib]
-\include{intro_chapter/intro_chapter}
+\begin{refsection}[01_intro_chapter/intro_chapter.bib]
+\include{01_intro_chapter/intro_chapter}
 \cleardoublepage
 \printbibliography[title={References}]
 \end{refsection}
 
-%% If using Overleaf, you'll have to upload the resulting tex file & figures
-%% since Overleaf does not support Rnw files right now (April 13, 2016)
 \begin{refsection}[rnw_chapter/rnw_chapter.bib]
 \include{rnw_chapter/rnw_chapter}
 \cleardoublepage
 \printbibliography[title={References}]
 \end{refsection}
 
-\begin{refsection}[conclusion_chapter/conclusion_chapter.bib]
-\include{conclusion_chapter/conclusion_chapter}
+\begin{refsection}[99_conclusion_chapter/conclusion_chapter.bib]
+\include{99_conclusion_chapter/conclusion_chapter}
 \cleardoublepage
 \printbibliography[title={References}]
 \end{refsection}
