@@ -36,5 +36,6 @@ clean:
 	rm -f *.run.xml
 	rm -f pdfa.xmpi
 	rm -f *.fdb_latexmk
+	rm -f '${fname}.synctex(busy)'
 	rm -f *.synctex.gz
 	rm -f ${fname}.pdf

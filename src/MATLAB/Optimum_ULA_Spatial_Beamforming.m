@@ -14,7 +14,8 @@ c           = physconst('LightSpeed');
 wavelength  = fc/c;
 antPos      = (0:1:N-1)*wavelength*spacing; % antenna element positions
 % create spatial response vector at each ULA element
-s = sqrt(SNR*noiseP)*exp(1i*2*pi/wavelength*antPos'*sind(theta));
+d = exp(1i*2*pi/wavelength*antPos'*sind(theta)); % phase shift over ULA
+s = sqrt(SNR*noiseP)*d;
 
 
 %% compute hypothesis of steering vectors from -1<>+1 (sine space) for quiescent response
@@ -58,8 +59,8 @@ legend('Single Period','Average over Periods','Location','southwest')
 %% Create example received signal
 numSamp = 1000;
 t  = (1:1:numSamp)/fs;
-rx = sqrt(SNR*noiseP)*exp(1i*2*pi*fc*t) .* ...        % fundamental cw pulse
-    exp(1i*2*pi/wavelength*antPos'*sind(theta)) + ... % phase over array
+rx = sqrt(SNR*noiseP)*exp(1i*2*pi*fc*t) .* ... % fundamental cw pulse
+    d +                                    ... % phase over array
     sqrt(noiseP/2)*(randn(N,numSamp) + 1i*randn(N,numSamp)); % random noise
 
 nonDBF = zeros(1,numSamp);
