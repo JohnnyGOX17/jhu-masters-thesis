@@ -1,7 +1,7 @@
 clear; close('all');
 %% Deterministic Digital Beamformer
 % givens/user defined values
-N       = 16;       % number of elements in ULA (more elements = tighter mainlobe & more gain (SNR gain = N))
+N       = 3;        % number of elements in ULA (more elements = tighter mainlobe & more gain (SNR gain = N))
 fc      = 300e6;    % carrier frequency (Hz)
 fs      = 1e9;      % sampling frequency (Hz)
 theta   = 30;       % wave Angle of Arrival (AoA) in degrees
@@ -56,12 +56,20 @@ title('Quiescent ULA Response with Noise $\frac{d}{\lambda}=0.5$','Interpreter',
 legend('Single Period','Average over Periods','Location','southwest')
 
 
-%% Create example received signal
+%% Create example received signal w/additive noise & interference
+thetaInf  = (rand*48)-24; % interference wave Angle of Arrival (AoA) in degrees
+fInf      = rand*fc;      % interference wave frequency
+lambdaInf = fc/c;
+dInf      = exp(1i*2*pi/lambdaInf*antPos'*sind(thetaInf)); % phase shift over ULA
+
 numSamp = 1000;
 t  = (1:1:numSamp)/fs;
 rx = sqrt(SNR*noiseP)*exp(1i*2*pi*fc*t) .* ... % fundamental cw pulse
     d +                                    ... % phase over array
     sqrt(noiseP/2)*(randn(N,numSamp) + 1i*randn(N,numSamp)); % random noise
+
+infRx = sqrt(SNR*noiseP)*exp(1i*2*pi*fInf*t).*dInf; % interference wave
+rx    = rx + infRx; % add interference to RX waveform
 
 nonDBF = zeros(1,numSamp);
 for i = 1:N % perform non-DBF (weighted sum average) across array to show effect
@@ -81,7 +89,9 @@ xlabel('Frequency (Hz)'); ylabel('Magnitude (dB)');
 axis tight
 subplot(212)
 plot(freqBin, 20*log10(abs(fft(qDBF))))
+xline(fc,'g--'); xline(fInf,'r--');
 title('Quiescent Beamformer Spectrum')
+legend('RX Spectrum', 'f_{c}', 'f_{Inf}')
 xlabel('Frequency (Hz)'); ylabel('Magnitude (dB)');
 axis tight
 
@@ -90,7 +100,8 @@ axis tight
 sv  = exp(-1i*2*pi/wavelength*antPos'*sind(theta)); % create steering vector
 ymv = MVDR_beamform(conj(rx'), conj(sv));
 figure
-plot(20*log10(abs(fft(ymv))))
+plot(freqBin, 20*log10(abs(fft(ymv))))
+xline(fc,'g--'); xline(fInf,'r--');
 title('MVDR Beamformer Spectrum')
+legend('RX Spectrum', 'f_{c}', 'f_{Inf}')
 xlabel('Frequency (Hz)'); ylabel('Magnitude (dB)');
-axis tight
