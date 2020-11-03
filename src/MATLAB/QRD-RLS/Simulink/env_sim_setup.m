@@ -1,7 +1,7 @@
 clear; close('all');
 %% Environment Variables for QRD/IQRD Simulink sims
 % givens/user defined values
-N       = 8;        % number of elements in ULA (more elements = tighter
+N       = 3;        % number of elements in ULA (more elements = tighter
                     % mainlobe & more gain (SNR gain = N))
 fc      = 30e6;     % carrier frequency (Hz)
 finf    = 200e6;    % interference frequency (Hz)

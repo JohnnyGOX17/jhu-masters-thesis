@@ -1,7 +1,7 @@
 clear; close('all');
 %% Deterministic Digital Beamformer
 % givens/user defined values
-N       = 3;        % number of elements in ULA (more elements = tighter mainlobe & more gain (SNR gain = N))
+N       = 16;       % number of elements in ULA (more elements = tighter mainlobe & more gain (SNR gain = N))
 fc      = 300e6;    % carrier frequency (Hz)
 fs      = 1e9;      % sampling frequency (Hz)
 theta   = 30;       % wave Angle of Arrival (AoA) in degrees
