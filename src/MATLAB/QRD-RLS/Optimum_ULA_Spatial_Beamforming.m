@@ -98,10 +98,20 @@ axis tight
 
 %% MVDR weight calculation
 sv  = exp(-1i*2*pi/wavelength*antPos'*sind(theta)); % create steering vector
-ymv = MVDR_beamform(conj(rx'), conj(sv));
+[ymv, wmv] = MVDR_beamform(conj(rx'), conj(sv));
 figure
 plot(freqBin, 20*log10(abs(fft(ymv))))
 xline(fc,'g--'); xline(fInf,'r--');
 title('MVDR Beamformer Spectrum')
 legend('RX Spectrum', 'f_{c}', 'f_{Inf}')
 xlabel('Frequency (Hz)'); ylabel('Magnitude (dB)');
+
+
+
+%% IQRD
+lambda  = 0.995;    % forgetting factor
+sigma   = 1e-6;     % initial QR upper array value (inv cells use 1/sigma)
+[w_iqrd, e_iqrd] = IQRD_systolic_array(rx(:,1:16), sv, lambda, sigma);
+iqrdDBF = w_iqrd(:,1)'*rx; 
+figure
+plot(freqBin, 20*log10(abs(fft(iqrdDBF))))

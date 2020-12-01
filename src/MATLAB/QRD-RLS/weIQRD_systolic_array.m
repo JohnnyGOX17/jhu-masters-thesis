@@ -7,7 +7,7 @@
 % Returns:
 %   w, 2D complex weight MxN vector (M filter weights, per N iterations)
 %   e, 1D posteriori error value output (1xN, value for each iteration)
-function [w, e] = IQRD_systolic_array(x, d, lambda, sigma)
+function [w, e] = weIQRD_systolic_array(x, d, lambda, sigma)
     N = length(x(1,:)); % number of samples
     M = length(x(:,1)); % filter order
     % initialize QR upper array with sigma, lower inverse QR with 1/sigma
@@ -26,6 +26,7 @@ function [w, e] = IQRD_systolic_array(x, d, lambda, sigma)
                 if row == 1 % use x & d inputs, else use past row outputs
                     rowOut(1:M) = x(:,i); % use input samples
                     rowOut(M+1) = d(i);   % use input steering vector
+                    rowOut(M+2) = 1;
                 end
 
                 if row == M + 1 % last row, use weight extraction cells

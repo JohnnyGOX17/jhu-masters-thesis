@@ -1,5 +1,6 @@
-%% X = 2D input sample array(samples x element), sv = steering vector
-function Y = MVDR_beamform(X, sv)
+%% X = 2D input sample array(samples x element), sv = steering vector,
+%  Y = output beam, w = MVDR weights
+function [Y, w] = MVDR_beamform(X, sv)
     % form covariance matrix from input samples
     Ecx = X.'*conj(X);
 
