@@ -59,7 +59,7 @@ legend('Single Period','Average over Periods','Location','southwest')
 %% Create example received signal w/additive noise & interference
 thetaInf  = (rand*48)-24; % interference wave Angle of Arrival (AoA) in degrees
 fInf      = rand*fc;      % interference wave frequency
-lambdaInf = fc/c;
+lambdaInf = fInf/c;
 dInf      = exp(1i*2*pi/lambdaInf*antPos'*sind(thetaInf)); % phase shift over ULA
 
 numSamp = 1000;
@@ -106,6 +106,7 @@ title('MVDR Beamformer Spectrum')
 legend('RX Spectrum', 'f_{c}', 'f_{Inf}')
 xlabel('Frequency (Hz)'); ylabel('Magnitude (dB)');
 
+% TODO: plot MVDR response in sine space
 
 
 %% IQRD
