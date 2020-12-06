@@ -6,9 +6,9 @@ N       = 3;        % number of elements in ULA (more elements = tighter
 fc      = 30e6;     % carrier frequency (Hz)
 finf    = 200e6;    % interference frequency (Hz)
 fs      = 1e9;      % sampling frequency (Hz)
-thetaD  = 33;       % desired wave Angle of Arrival (AoA) in degrees
+thetaD  = 0;       % desired wave Angle of Arrival (AoA) in degrees
 thetaI  = 75;       % interference wave Angle of Arrival (AoA) in degrees
-SNR     = 10;       % element SNR (linear)
+SNR     = 1;       % element SNR (linear)
 noiseP  = 1;        % noise power (linear)
 spacing = 0.5;      % d/wavelength element spacing (0.5 = half-wavelength)
 lambda  = 0.995;    % forgetting factor
@@ -29,9 +29,25 @@ sv      = sv - 0.0001*1i; % just used to not have 1 + 0i interpreted as real in 
 eAngI   = (2*pi*d/wavelengthI)*sind(thetaI); % electrical angle of interference signal
 phShftI = (0:1:N-1)*eAngI;            % interference phase shift @ each element (radians)
 
-% % create spatial response vector at each ULA element
-% antPos      = (0:1:N-1)*wavelength*spacing; % antenna element positions
-% phShftD = antPos'*sind(thetaD);             % phase shift over ULA for desired wave
-% phShftI = antPos'*sind(thetaI);             % phase shift over ULA for interference wave
-% d       = exp(1i*2*pi/wavelength*phShftD);  % phase shift phasor
-% sv      = exp(-1i*2*pi/wavelength*phShftD); % create steering vector
+
+%% compute hypothesis of steering vectors from -1<>+1 (sine space)
+% sine space is same as sin(-90:90deg)
+numHyp = 400; % number of hypothesis to compute
+u = linspace(-1,1,numHyp);
+antPos = (0:1:N-1)*wavelength*spacing; % antenna element positions
+wq = exp(1i*2*pi/wavelength*antPos'*u);
+% unit normalize quiescent filter weights
+mag = sum(wq .* conj(wq));
+wq  = wq./mag;
+% #TODO: grab this automatically from Simulink run
+w_out = [3.661675198000000e+05 - 1.190307669000000e+06i;4.435212720000000e+04 - 1.064648544500000e+06i;-1.420595512000000e+05 + 7.953153530000000e+04i];
+
+sin_iqrd = w_out'*wq;
+figure
+plot(u*spacing, 20*log10(abs(sin_iqrd)));
+xline(sind(thetaD)*spacing,'g--');
+xline(sind(thetaI)*spacing,'r--');
+xlabel('Normalized angle, $\frac{d}{\lambda}\sin(\theta)$','Interpreter','latex')
+ylabel('Amplitude (dB)')
+title('IQRD Response Sine Space $\frac{d}{\lambda}=0.5$','Interpreter','latex')
+legend('IQRD', '\theta_{c}', '\theta_{Inf}')
