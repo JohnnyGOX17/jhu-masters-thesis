@@ -1,21 +1,21 @@
-clear; close('all');
+%clear; close('all');
 %% Environment Variables for QRD/IQRD Simulink sims
 % givens/user defined values
-N       = 3;        % number of elements in ULA (more elements = tighter
+N       = 8;        % number of elements in ULA (more elements = tighter
                     % mainlobe & more gain (SNR gain = N))
 fc      = 30e6;     % carrier frequency (Hz)
 finf    = 200e6;    % interference frequency (Hz)
 fs      = 1e9;      % sampling frequency (Hz)
-thetaD  = 0;       % desired wave Angle of Arrival (AoA) in degrees
-thetaI  = 75;       % interference wave Angle of Arrival (AoA) in degrees
-SNR     = 1;       % element SNR (linear)
+thetaD  = 0;        % desired wave Angle of Arrival (AoA) in degrees
+thetaI  = 55;       % interference wave Angle of Arrival (AoA) in degrees
+SNR     = 1;        % element SNR (linear)
 noiseP  = 1;        % noise power (linear)
 spacing = 0.5;      % d/wavelength element spacing (0.5 = half-wavelength)
 lambda  = 0.995;    % forgetting factor
 sigma   = 1e-6;     % initial QR upper array value (inv cells use 1/sigma)
 
 
-% calculated constants & vectors
+%% calculated constants & vectors
 c           = physconst('LightSpeed');
 wavelength  = fc/c;               % fundamental/desired wavelength
 wavelengthI = finf/c;             % interference signal wavelength
@@ -39,8 +39,14 @@ wq = exp(1i*2*pi/wavelength*antPos'*u);
 % unit normalize quiescent filter weights
 mag = sum(wq .* conj(wq));
 wq  = wq./mag;
-% #TODO: grab this automatically from Simulink run
-w_out = [3.661675198000000e+05 - 1.190307669000000e+06i;4.435212720000000e+04 - 1.064648544500000e+06i;-1.420595512000000e+05 + 7.953153530000000e+04i];
+
+
+%% Plot weight outputs from Simulink in Sine space
+w_out = zeros(N,1);
+for i = 1:N % create weight vector from Simulink outputs
+    % use last element as proper weight to plot
+    w_out(i) = out.w_out(length(out.w_out),i);
+end
 
 sin_iqrd = w_out'*wq;
 figure
