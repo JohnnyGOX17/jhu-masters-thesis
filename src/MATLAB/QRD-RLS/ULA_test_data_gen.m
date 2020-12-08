@@ -33,7 +33,7 @@ rx    = rx + infRx; % add interference to RX waveform
 
 %% Convert Data to Signed 16b Fixed Point
 maxRxVal = max(abs(rx(:)));
-scaleVal = floor((2^15)/maxRxVal) - 1; % scale value for signed 16bit (-1 to not overflow)
+scaleVal = floor((2^15)/maxRxVal)/4; % scale value for signed 16bit (/4 to not overflow)
 rxs16    = round(rx*scaleVal); % scale and round to create signed 16b values
 figure
 subplot(211)
@@ -50,7 +50,7 @@ axis tight
 
 %% Convert Steering Vector to 16b Fixed Point
 maxDval  = max(abs(d));
-scaleVal = floor((2^15)/maxDval) - 1; % scale value for signed 16bit (-1 to not overflow)
+scaleVal = floor((2^15)/maxDval)/4; % scale value for signed 16bit (/4 to not overflow)
 Ds16     = round(d*scaleVal); % scale and round to create signed 16b values
 
 %% Write steering vector to text file
