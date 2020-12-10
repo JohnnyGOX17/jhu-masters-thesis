@@ -1,24 +1,24 @@
 clear; close('all');
-%% Deterministic Digital Beamformer
+%% Generates fixed point signed 16bit (S15.0) for HW tests
 % givens/user defined values
-N       = 4;        % number of elements in ULA (more elements = tighter mainlobe & more gain (SNR gain = N))
-fc      = 300e6;    % carrier frequency (Hz)
-fs      = 1e9;      % sampling frequency (Hz)
-theta   = 30;       % wave Angle of Arrival (AoA) in degrees
-SNR     = 1;        % element SNR (linear)
-noiseP  = 1;        % noise power (linear)
-spacing = 0.5;      % d/wavelength element spacing (0.5 = half-wavelength)
+N        = 4;        % number of elements in ULA (more elements = tighter mainlobe & more gain (SNR gain = N))
+fc       = 300e6;    % carrier frequency (Hz)
+fs       = 1e9;      % sampling frequency (Hz)
+thetaD   = 0;        % desired wave Angle of Arrival (AoA) in degrees
+thetaInf = 55;       % interference wave Angle of Arrival (AoA) in degrees
+fInf     = 0.4*fc;   % interference wave frequency
+SNR      = 1;        % element SNR (linear)
+noiseP   = 1;        % noise power (linear)
+spacing  = 0.5;      % d/wavelength element spacing (0.5 = half-wavelength)
 
 % calculated constants & vectors
 c           = physconst('LightSpeed');
 wavelength  = fc/c;
 antPos      = (0:1:N-1)*wavelength*spacing; % antenna element positions
 % create spatial response vector at each ULA element
-d = exp(1i*2*pi/wavelength*antPos'*sind(theta)); % phase shift over ULA
+d = exp(1i*2*pi/wavelength*antPos'*sind(thetaD)); % phase shift over ULA
 
 %% Create example received signal w/additive noise & interference
-thetaInf  = (rand*48)-24; % interference wave Angle of Arrival (AoA) in degrees
-fInf      = rand*fc;      % interference wave frequency
 lambdaInf = fInf/c;
 dInf      = exp(1i*2*pi/lambdaInf*antPos'*sind(thetaInf)); % phase shift over ULA
 
@@ -44,7 +44,6 @@ freqBin = (1:numSamp)*(fs/numSamp);
 plot(freqBin, 20*log10(abs(fft(rxs16(1,:)))))
 title('Fixed-Point Spectrum')
 xline(fc,'g--'); xline(fInf,'r--');
-title('MVDR Beamformer Spectrum')
 legend('RX Spectrum', 'f_{Desired}', 'f_{Interference}')
 axis tight
 
