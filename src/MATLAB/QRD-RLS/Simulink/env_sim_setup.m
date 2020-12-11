@@ -3,11 +3,11 @@
 % givens/user defined values
 N       = 8;        % number of elements in ULA (more elements = tighter
                     % mainlobe & more gain (SNR gain = N))
-fc      = 30e6;     % carrier frequency (Hz)
-finf    = 200e6;    % interference frequency (Hz)
+fc      = 200e6;    % carrier frequency (Hz)
+finf    = 0.8*fc;   % interference frequency (Hz)
 fs      = 1e9;      % sampling frequency (Hz)
 thetaD  = 0;        % desired wave Angle of Arrival (AoA) in degrees
-thetaI  = 55;       % interference wave Angle of Arrival (AoA) in degrees
+thetaI  = -20;      % interference wave Angle of Arrival (AoA) in degrees
 SNR     = 1;        % element SNR (linear)
 noiseP  = 1;        % noise power (linear)
 spacing = 0.5;      % d/wavelength element spacing (0.5 = half-wavelength)
@@ -51,8 +51,8 @@ end
 sin_iqrd = w_out'*wq;
 figure
 plot(u*spacing, 20*log10(abs(sin_iqrd)));
-xline(sind(thetaD)*spacing,'g--');
-xline(sind(thetaI)*spacing,'r--');
+xline(sind(thetaD)*spacing/wavelength,'g--');
+xline(sind(thetaI)*spacing/wavelengthI,'r--');
 xlabel('Normalized angle, $\frac{d}{\lambda}\sin(\theta)$','Interpreter','latex')
 ylabel('Amplitude (dB)')
 title('IQRD Response Sine Space $\frac{d}{\lambda}=0.5$','Interpreter','latex')

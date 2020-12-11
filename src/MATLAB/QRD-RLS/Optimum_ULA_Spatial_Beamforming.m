@@ -1,10 +1,10 @@
 clear; close('all');
 %% Deterministic Digital Beamformer
 % givens/user defined values
-N       = 16;       % number of elements in ULA (more elements = tighter mainlobe & more gain (SNR gain = M))
+N       = 4;        % number of elements in ULA (more elements = tighter mainlobe & more gain (SNR gain = M))
 fc      = 300e6;    % carrier frequency (Hz)
 fs      = 1e9;      % sampling frequency (Hz)
-theta   = 30;       % wave Angle of Arrival (AoA) in degrees
+theta   = 0;        % wave Angle of Arrival (AoA) in degrees
 SNR     = 1;        % element SNR (linear)
 noiseP  = 1;        % noise power (linear)
 spacing = 0.5;      % d/wavelength element spacing (0.5 = half-wavelength)
@@ -57,19 +57,22 @@ legend('Single Period','Average over Periods','Location','southwest')
 
 
 %% Create example received signal w/additive noise & interference
-thetaInf  = (rand*48)-24; % interference wave Angle of Arrival (AoA) in degrees
-fInf      = rand*fc;      % interference wave frequency
-lambdaInf = fInf/c;
-dInf      = exp(1i*2*pi/lambdaInf*antPos'*sind(thetaInf)); % phase shift over ULA
+thetaInf      = 30;     % interference wave Angle of Arrival (AoA) in degrees
+fInf          = 0.9*fc; % interference wave frequency
+lambdaInf     = fInf/c;
+wavelengthInf = fInf/c;
+
+dInf = exp(1i*2*pi/lambdaInf*antPos'*sind(thetaInf)); % phase shift over ULA
 
 M = N*100; % M received samples, where M ≥ N channels to form MxN sample matrix
 t  = (1:1:M)/fs;
 rx = sqrt(SNR*noiseP)*exp(1i*2*pi*fc*t) .* ... % fundamental cw pulse
     d +                                    ... % phase over array
     sqrt(noiseP/2)*(randn(N,M) + 1i*randn(N,M)); % random noise
-
-infRx = sqrt(SNR*noiseP)*exp(1i*2*pi*fInf*t).*dInf; % interference wave
-rx    = rx + infRx; % add interference to RX waveform
+infNoise = sqrt(noiseP/2)*(randn(N,M) + 1i*randn(N,M)).*dInf;
+infRx    = sqrt(SNR*noiseP)*exp(1i*2*pi*fInf*t).*dInf; % interference wave
+% add interference to RX waveform (only for section of time)
+rx       = rx + infRx + infNoise;
 
 nonDBF = zeros(1,M);
 for i = 1:N % perform non-DBF (weighted sum average) across array to show effect
@@ -112,8 +115,8 @@ xlabel('Frequency (Hz)'); ylabel('Magnitude (dB)');
 sin_mvdr = wmv'*wq;
 figure
 plot(u*spacing, 20*log10(abs(sin_mvdr)));
-xline(sind(theta)*spacing,'g--');
-xline(sind(thetaInf)*spacing,'r--');
+xline(sind(theta)*spacing/wavelength,'g--');
+xline(sind(thetaInf)*spacing/wavelengthInf,'r--');
 xlabel('Normalized angle, $\frac{d}{\lambda}\sin(\theta)$','Interpreter','latex')
 ylabel('Amplitude (dB)')
 title('MVDR Response Sine Space $\frac{d}{\lambda}=0.5$','Interpreter','latex')
@@ -121,6 +124,7 @@ legend('MVDR', '\theta_{c}', '\theta_{Inf}')
 
 %% QR MATLAB
 Acovar = A.'*conj(A);
+%Acovar = A'*A;
 % the desired response or steering vector, repeated to create size (m,1)
 %b = repmat(d,M/N,1); % matched filter response of ULA phase shift
 [Q,R] = qr(Acovar); % perform QR decomp of input sample matrix
@@ -141,8 +145,8 @@ xlabel('Frequency (Hz)'); ylabel('Magnitude (dB)');
 sin_qr = w_qr'*wq;
 figure
 plot(u*spacing, 20*log10(abs(sin_qr)));
-xline(sind(theta)*spacing,'g--');
-xline(sind(thetaInf)*spacing,'r--');
+xline(sind(theta)*spacing/wavelength,'g--');
+xline(sind(thetaInf)*spacing/wavelengthInf,'r--');
 xlabel('Normalized angle, $\frac{d}{\lambda}\sin(\theta)$','Interpreter','latex')
 ylabel('Amplitude (dB)')
 title('QR Decomposition Response Sine Space $\frac{d}{\lambda}=0.5$','Interpreter','latex')

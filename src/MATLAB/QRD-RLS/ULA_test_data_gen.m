@@ -5,8 +5,8 @@ N        = 4;        % number of elements in ULA (more elements = tighter mainlo
 fc       = 300e6;    % carrier frequency (Hz)
 fs       = 1e9;      % sampling frequency (Hz)
 thetaD   = 0;        % desired wave Angle of Arrival (AoA) in degrees
-thetaInf = 55;       % interference wave Angle of Arrival (AoA) in degrees
-fInf     = 0.4*fc;   % interference wave frequency
+thetaInf = 30;       % interference wave Angle of Arrival (AoA) in degrees
+fInf     = 0.9*fc;   % interference wave frequency
 SNR      = 1;        % element SNR (linear)
 noiseP   = 1;        % noise power (linear)
 spacing  = 0.5;      % d/wavelength element spacing (0.5 = half-wavelength)
