@@ -1,7 +1,7 @@
 clear; close('all');
 %% Deterministic Digital Beamformer
 % givens/user defined values
-N       = 4;        % number of elements in ULA (more elements = tighter mainlobe & more gain (SNR gain = M))
+N       = 8;        % number of elements in ULA (more elements = tighter mainlobe & more gain (SNR gain = M))
 fc      = 300e6;    % carrier frequency (Hz)
 fs      = 1e9;      % sampling frequency (Hz)
 theta   = 0;        % wave Angle of Arrival (AoA) in degrees
@@ -67,8 +67,8 @@ dInf = exp(1i*2*pi/lambdaInf*antPos'*sind(thetaInf)); % phase shift over ULA
 M = N*100; % M received samples, where M ≥ N channels to form MxN sample matrix
 t  = (1:1:M)/fs;
 rx = sqrt(SNR*noiseP)*exp(1i*2*pi*fc*t) .* ... % fundamental cw pulse
-    d +                                    ... % phase over array
-    sqrt(noiseP/2)*(randn(N,M) + 1i*randn(N,M)); % random noise
+    d;% +                                    ... % phase over array
+    %sqrt(noiseP/2)*(randn(N,M) + 1i*randn(N,M)); % random noise
 infNoise = sqrt(noiseP/2)*(randn(N,M) + 1i*randn(N,M)).*dInf;
 infRx    = sqrt(SNR*noiseP)*exp(1i*2*pi*fInf*t).*dInf; % interference wave
 % add interference to RX waveform (only for section of time)
@@ -123,8 +123,8 @@ title('MVDR Response Sine Space $\frac{d}{\lambda}=0.5$','Interpreter','latex')
 legend('MVDR', '\theta_{c}', '\theta_{Inf}')
 
 %% QR MATLAB
-Acovar = A.'*conj(A);
-%Acovar = A'*A;
+%Acovar = A.'*conj(A);
+Acovar = (rx*rx')/M;
 % the desired response or steering vector, repeated to create size (m,1)
 %b = repmat(d,M/N,1); % matched filter response of ULA phase shift
 [Q,R] = qr(Acovar); % perform QR decomp of input sample matrix
