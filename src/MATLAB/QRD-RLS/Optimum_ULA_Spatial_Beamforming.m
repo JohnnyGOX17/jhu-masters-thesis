@@ -124,7 +124,10 @@ legend('MVDR', '\theta_{c}', '\theta_{Inf}')
 
 %% QR MATLAB
 %Acovar = A.'*conj(A);
-Acovar = (rx*rx')/M;
+Acovar = (rx*rx')/M; % when M = pow2, can use simple lsh bitwise op (FXP)
+                     % since Hermitian positive semi-definite output, need
+                     % only compute upper or lower triangle of values, then
+                     % copy conj in other triangle for output
 % the desired response or steering vector, repeated to create size (m,1)
 %b = repmat(d,M/N,1); % matched filter response of ULA phase shift
 [Q,R] = qr(Acovar); % perform QR decomp of input sample matrix
