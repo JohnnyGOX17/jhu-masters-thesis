@@ -5,14 +5,37 @@
 
 In this section, the concept of beamforming, and its method of adaptation, is introduced. It's assumed the reader is familiar with fundamental discrete signal processing techniques, such as Finite Impulse Response (FIR) filtering.
 
-\section{Beamforming}
+
+
+
+
+
+\section{Beamforming and Array Basics}
 
 In signal processing, filtering is a fairly common operation; in the discrete sense, samples are passed through a set of filter coefficients, or "taps", to perform the convolution and acheive the desired response. Analagous to such temporal filtering, an array of sensors can be filtered \emph{spatially} to produce a desired response across the elements.
 
-Specifically in the context of Radio Frequency (RF) antenna arrays, this spatial filtering can be utilized to optimize the overall antenna pattern, in a process commonly known as \emph{beamforming}\citep{van_veen_and_buckley}. The specific spatial optimization is often application dependent, however beamforming is generally seen as a method of beam steering, where gain is provided in a specific, desired direction, with attenuation in other locations. Though the term "beamforming" sounds like a specific application of array radiation, beamforming- and spatial filtering- can be performed on both the transmit and receive functions of an array.
+Specifically in the context of Radio Frequency (RF) antenna arrays, this spatial filtering can be utilized to optimize the overall antenna pattern, in a process commonly known as \emph{beamforming} \citep{van_veen_and_buckley}. The specific spatial optimization is often application dependent, however beamforming is generally seen as a method of beam steering, where gain is provided in a specific, desired direction- relative to the array's front-, with attenuation in other angles. Though the term "beamforming" sounds specific to transmitting applications- like radiating RF arrays-, beamforming, and consequently spatial filtering, can actually be performed on both the transmit and receive functions of any array. Beamforming is inclusive of non-RF arrays and applications as well, such as sound transducers used in SONAR arrays \citep{van_veen_and_buckley}.
 
-blah double cite \citep{Alexander_and_Ghirnikar,Haykin}
+%#TODO: reference https://www.analog.com/en/analog-dialogue/articles/phased-array-antenna-patterns-part1.html and https://www.analog.com/en/analog-dialogue/articles/phased-array-antenna-patterns-part2.html
 
+The beam steering process is done by...
+As illustrated in Figure \ref{fig:phased_array}, the
+First analog vs digital beamforming. Time delay vs phase shift
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[]{02_abf_background/phased_array}
+  \caption{Phased Array Wavefront Steering}
+  \label{fig:phased_array}
+\end{figure}
+
+blah double cite \citep{Alexander_and_Ghirnikar,Haykin} blah
+blah test equation \ref{eq:test} below.
+\begin{equation} \label{eq:test}
+  \sum_{i=0}^{\infty} a_i x^i
+\end{equation}
+
+Here we talk about standard ULA beamformer, standard weight derivation
 As seen in Figure \ref{fig:ula_beamformer}
 
 \begin{figure}[!htbp]
@@ -22,13 +45,24 @@ As seen in Figure \ref{fig:ula_beamformer}
   \label{fig:ula_beamformer}
 \end{figure}
 
+
+
+
+
+
+
+
 \subsection{Adaptive Beamforming}
 
 A standard beamformer, with pre-determined beamforming weights, can be called a \emph{deterministic beamformer} \citep{6206403}. For MIMO communication arrays, the properties of direction gain and attenuation can be exploited for servicing multiple users, such as in Spatial Multiplexing \citep{6732923}.
 
-\begin{equation} \label{eq:test}
-  \sum_{i=0}^{\infty} a_i x^i
-\end{equation}
+
+
+
+
+
+
+
 
 \subsection{QR Decomposition}
 
