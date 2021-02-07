@@ -55,6 +55,10 @@ main.pdf
 # hyperref
 *.brf
 
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
 # listings
 *.lol
 
