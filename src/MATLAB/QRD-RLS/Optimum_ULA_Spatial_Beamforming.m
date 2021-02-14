@@ -60,7 +60,6 @@ legend('Single Period','Average over Periods','Location','southwest')
 thetaInf      = 30;     % interference wave Angle of Arrival (AoA) in degrees
 fInf          = 0.9*fc; % interference wave frequency
 lambdaInf     = fInf/c;
-wavelengthInf = fInf/c;
 
 dInf = exp(1i*2*pi/lambdaInf*antPos'*sind(thetaInf)); % phase shift over ULA
 
@@ -116,7 +115,7 @@ sin_mvdr = wmv'*wq;
 figure
 plot(u*spacing, 20*log10(abs(sin_mvdr)));
 xline(sind(theta)*spacing/wavelength,'g--');
-xline(sind(thetaInf)*spacing/wavelengthInf,'r--');
+xline(sind(thetaInf)*spacing/lambdaInf,'r--');
 xlabel('Normalized angle, $\frac{d}{\lambda}\sin(\theta)$','Interpreter','latex')
 ylabel('Amplitude (dB)')
 title('MVDR Response Sine Space $\frac{d}{\lambda}=0.5$','Interpreter','latex')
@@ -149,7 +148,7 @@ sin_qr = w_qr'*wq;
 figure
 plot(u*spacing, 20*log10(abs(sin_qr)));
 xline(sind(theta)*spacing/wavelength,'g--');
-xline(sind(thetaInf)*spacing/wavelengthInf,'r--');
+xline(sind(thetaInf)*spacing/lambdaInf,'r--');
 xlabel('Normalized angle, $\frac{d}{\lambda}\sin(\theta)$','Interpreter','latex')
 ylabel('Amplitude (dB)')
 title('QR Decomposition Response Sine Space $\frac{d}{\lambda}=0.5$','Interpreter','latex')
