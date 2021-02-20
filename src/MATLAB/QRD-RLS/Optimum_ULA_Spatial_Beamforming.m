@@ -1,7 +1,7 @@
 clear; close('all');
 %% Deterministic Digital Beamformer
 % givens/user defined values
-N       = 8;        % number of elements in ULA (more elements = tighter mainlobe & more gain (SNR gain = M))
+N       = 16;       % number of elements in ULA (more elements = tighter mainlobe & more gain (SNR gain = M))
 fc      = 300e6;    % carrier frequency (Hz)
 fs      = 1e9;      % sampling frequency (Hz)
 theta   = 0;        % wave Angle of Arrival (AoA) in degrees
@@ -63,12 +63,13 @@ lambdaInf     = fInf/c;
 
 dInf = exp(1i*2*pi/lambdaInf*antPos'*sind(thetaInf)); % phase shift over ULA
 
-M = N*100; % M received samples, where M ≥ N channels to form MxN sample matrix
+M = N*128; % M received samples, where M ≥ N channels to form MxN sample matrix
 t  = (1:1:M)/fs;
 rx = sqrt(SNR*noiseP)*exp(1i*2*pi*fc*t) .* ... % fundamental cw pulse
     d;% +                                    ... % phase over array
     %sqrt(noiseP/2)*(randn(N,M) + 1i*randn(N,M)); % random noise
-infNoise = sqrt(noiseP/2)*(randn(N,M) + 1i*randn(N,M)).*dInf;
+%infNoise = sqrt(noiseP/2)*(randn(N,M) + 1i*randn(N,M)).*dInf;
+infNoise = sqrt(noiseP/2)*(randn(N,M) + 1i*randn(N,M));
 infRx    = sqrt(SNR*noiseP)*exp(1i*2*pi*fInf*t).*dInf; % interference wave
 % add interference to RX waveform (only for section of time)
 rx       = rx + infRx + infNoise;
